@@ -30,16 +30,17 @@ exports.cache = {
 exports.model = {
   type: 'mysql',
   common: {
-    logConnect: isDev,
-    logSql: isDev,
+    logConnect: true,
+    logSql: true,
     logger: msg => think.logger.info(msg)
   },
   mysql: {
     handle: mysql,
-    database: 'wechat',
+    database: 'wechat_app',
     // prefix: 'think_',
     connectionLimit: 100,
-    encoding: 'utf8',
+    encoding: 'utf8mb4',
+    charset: 'utf8mb4',
     host: '10.66.233.237',
     port: '8360',
     user: 'root',
