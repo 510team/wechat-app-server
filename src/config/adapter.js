@@ -42,7 +42,7 @@ exports.model = {
     encoding: 'utf8mb4',
     charset: 'utf8mb4',
     host: '10.66.233.237',
-    port: '8360',
+    port: '3306',
     user: 'root',
     password: 'qwer!@#$',
     dateStrings: true
