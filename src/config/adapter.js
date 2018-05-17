@@ -41,10 +41,10 @@ exports.model = {
     connectionLimit: 100,
     encoding: 'utf8mb4',
     charset: 'utf8mb4',
-    host: '10.66.233.237',
+    host: '',
     port: '3306',
     user: 'root',
-    password: 'qwer!@#$',
+    password: '',
     dateStrings: true
   }
 };
