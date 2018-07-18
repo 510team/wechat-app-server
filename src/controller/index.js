@@ -5,6 +5,7 @@ module.exports = class extends Base {
   indexAction() {
     return this.json({ status: 'ok' });
   }
+  /*
   async saleAction() {
     const sid = this.ctx.param('sid');
     const stockModel = this.model('stock');
@@ -26,6 +27,7 @@ module.exports = class extends Base {
     think.logger.info('test', test);
     return this.json(test);
   }
+
   async testAction() {
     this.ctx.state.requestId = Math.random() + new Date().getTime(); ;
     const client = redis.createClient();
@@ -35,4 +37,5 @@ module.exports = class extends Base {
     console.log('requestId', this.ctx.state.requestId);
     return this.json({ res });
   }
+  */
 };
