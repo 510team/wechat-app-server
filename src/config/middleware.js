@@ -11,10 +11,12 @@ module.exports = [
   },
   {
     handle: 'resource',
-    enable: isDev,
+    enable: true,
     options: {
       root: path.join(think.ROOT_PATH, 'www'),
-      publicPath: /^\/(static|favicon\.ico)/
+      // publicPath: /^\/(static|favicon\.ico|(\w)+\.txt)/
+      publicPath: '/'
+
     }
   },
   {
