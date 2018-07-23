@@ -55,5 +55,9 @@
     "cacheTemplatePath": "/Users/fan.zhang1/.think-templates/-usr-local-lib-node_modules-think-cli-default_template",
     "clone": false,
     "isMultiModule": false
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true
   }
 }

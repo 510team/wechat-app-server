@@ -22,3 +22,13 @@ CREATE TABLE `questions` (
 `answer` varchar(128) NOT NULL DEFAULT '' COMMENT '答案',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='问题表';
+
+
+CREATE TABLE `answer` (
+`id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+`open_id` varchar(100)  NOT NULL  COMMENT '用户id',
+`question_id` varchar(100) NOT NULL   COMMENT '问题id',
+`answer` varchar(12) NOT NULL DEFAULT ''  COMMENT '答案',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='答案表';
+
