@@ -66,7 +66,7 @@ module.exports = class extends Base {
             result.errorMsg = sessionData &&  sessionData.errmsg || "code在缓存中没有找到";
             return this.json(result);
         }
-        const isSignOk = this.checkSignature(sessionData.session_key, rawData, singature);
+        const isSignOk = this.checkSignature(sessionData.session_key, rawData, signature);
         if (!isSingOk) {
             result.success = false;
             result.errorMsg = "签名校验出错";
@@ -82,8 +82,8 @@ module.exports = class extends Base {
         return this.json(result);
     }
     checkSignature(sessionKey, rawData, signature) {
-        const singature2 = SHA.sha1ByJSON(JSON.stringify(rawData) + sessionKey);
-        return signature === singature2;
+        const signature2 = SHA.sha1ByJSON(JSON.stringify(rawData) + sessionKey);
+        return signature === signature2;
     }
 
     async jscode2session(code) {
