@@ -4,7 +4,7 @@ const request = require('../util/request');
 const SHA = require('../util/sha.js');
 module.exports = class extends Base {
     async indexAction() {
-        const code = this.ctx.post('code');
+        const code = this.ctx.param('code');
         const result = {
             success: false,
             errorMsg: ''
