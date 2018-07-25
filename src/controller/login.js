@@ -67,7 +67,7 @@ module.exports = class extends Base {
             return this.json(result);
         }
         const isSignOk = this.checkSignature(sessionData.session_key, rawData, signature);
-        if (!isSingOk) {
+        if (!isSignOk) {
             result.success = false;
             result.errorMsg = "签名校验出错";
         }
