@@ -37,9 +37,10 @@ module.exports = class extends Base {
     }
 
     async setUserAction() {
-        const code = this.ctx.post('code');
         const signature = this.ctx.post('signature');
         const rawData = this.ctx.post('rawData');
+        const headers = this.ctx.headers;
+        const code = headers && headers['code'] || '';
         const result = {
             success: false,
             errorMsg: ''
