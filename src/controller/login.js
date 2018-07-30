@@ -5,6 +5,8 @@ const SHA = require('../util/sha.js');
 module.exports = class extends Base {
     async indexAction() {
         const code = this.ctx.param('code');
+        think.logger.info("login code:"+code);
+
         const result = {
             success: false,
             errorMsg: ''
@@ -30,7 +32,12 @@ module.exports = class extends Base {
             openid: sessionData.openid,
             session_key:sessionData.session_key
         }
+        think.logger.info("用户信息写入缓存 code:"+code,  userData);
         await this.cache(code, userData);
+        this.model('user').addUser({
+            code,
+            ...userData
+        });
         result.data = userData;
         result.success = true;
         return this.json(result);
@@ -41,6 +48,10 @@ module.exports = class extends Base {
         const rawData = this.ctx.post('rawData');
         const headers = this.ctx.headers;
         const code = headers && headers['code'] || '';
+        think.logger.info("setUser rawData:"+rawData);
+        think.logger.info("setUser signature:"+signature);
+        think.logger.info("setUser code:"+code);
+
         const result = {
             success: false,
             errorMsg: ''
@@ -62,28 +73,38 @@ module.exports = class extends Base {
         }
         //含有rawData ,拿code ,appid,app_secret 换session_key,openid,然后写入缓存.code->{openId,sessionKey,rawData}
         const sessionData =  await this.cache(code);
+
+        think.logger.info("code:"+code,  sessionData);
+
         if (!sessionData ||  !sessionData.session_key) {
             result.success = false;
             result.errorMsg = sessionData &&  sessionData.errmsg || "code在缓存中没有找到";
+            think.logger.error("set User error:",  result.errorMsg);
             return this.json(result);
         }
         const isSignOk = this.checkSignature(sessionData.session_key, rawData, signature);
         if (!isSignOk) {
             result.success = false;
             result.errorMsg = "签名校验出错";
+            think.logger.error("set User error:",  result.errorMsg);
+            return this.json(result);
         }
         //签名正确写入缓存
         const userData = {
             openid: sessionData.openid,
-            ...rawData
+            session_key:sessionData.session_key,
+            rawData
         }
+        this.model('user').updateUser(userData);
+
         await this.cache(code, userData);
+        think.logger.info("用户信息写入缓存 code:"+code,  userData);
         result.data = userData;
         result.success = true;
         return this.json(result);
     }
     checkSignature(sessionKey, rawData, signature) {
-        const signature2 = SHA.sha1ByJSON(JSON.stringify(rawData) + sessionKey);
+        const signature2 = SHA.sha1ByJSON(rawData + sessionKey);
         return signature === signature2;
     }
 
