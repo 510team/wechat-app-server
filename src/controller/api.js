@@ -1,12 +1,13 @@
 module.exports = class extends think.Controller {
-   async __before() {
+    async __before() {
         const result = {
             success: false,
             errorMsg: ''
         }
         const headers = this.ctx.headers;
-        think.logger.info("code:"+headers["code"]);
-        if (headers && headers["code"]) {
+        const code = headers &&  headers["code"] || '';
+        think.logger.info("code:" + code);
+        if (code) {
             const sessionData = await this.cache(code);
             if (sessionData && sessionData.openid) {
                 this.ctx.state.userInfo = sessionData;
