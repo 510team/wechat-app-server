@@ -1,4 +1,9 @@
+
+CREATE Database `wechat_app` DEFAULT CHARSET=utf8mb4;
+
 use wechat_app;
+
+drop TABLE user;
 
 CREATE TABLE `user` (
 `openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
@@ -13,6 +18,7 @@ CREATE TABLE `user` (
 PRIMARY KEY (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
+drop TABLE questions;
 
 CREATE TABLE `questions` (
 `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -25,6 +31,7 @@ CREATE TABLE `questions` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='问题表';
 
+drop TABLE answer;
 
 CREATE TABLE `answer` (
 `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -34,3 +41,10 @@ CREATE TABLE `answer` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='答案表';
 
+drop TABLE score;
+
+CREATE TABLE `score` (
+`openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
+`score` bigint(11) NOT NULL DEFAULT 0 COMMENT '分数',
+PRIMARY KEY (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分数表';
