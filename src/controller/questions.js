@@ -1,5 +1,5 @@
-const Base = require('./base.js');
-module.exports = class extends Base {
+const Api = require('./api.js');
+module.exports = class extends Api {
   async indexAction() {
     const offset = parseInt(this.ctx.param('offset')) || 0;
     const count = parseInt(this.ctx.param('count')) || 10;
