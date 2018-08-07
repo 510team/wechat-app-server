@@ -1,7 +1,7 @@
-const Base = require('./base.js');
-module.exports = class extends Base {
+const Api = require('./api.js');
+module.exports = class extends Api {
     async indexAction() {
-        const openId = parseInt(this.ctx.post('open_id'));
+        const openId = this.ctx.state.userInfo.openid;
         const questionId = parseInt(this.ctx.post('question_id'));
         const answer = this.ctx.post('answer');
         const result = { success: false, errorMsg: '' }
