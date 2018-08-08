@@ -17,8 +17,8 @@ module.exports = class extends think.Model {
         const data = {
             rankList: rankList,
             amount: amount,
-            rank: rank[0].rank,
-            score: scoreData[0].score
+            rank: (rank[0] && rank[0].rank) || 1,
+            score: (scoreData[0] && scoreData[0].score) || 0
         };
         return data;
     }
