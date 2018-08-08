@@ -25,18 +25,22 @@ module.exports = class extends Base {
             result.errorMsg = sessionData.errmsg || "jscode2session出错";
             return this.json(result);
         }
-
-       
+        let userInfo =  {};
+        think.logger.info("sessionData:",sessionData);
+        if(sessionData && sessionData.openid){
+            userInfo = await this.model('user').findUser(sessionData.openid);
+        }
         //签名正确写入缓存
         const userData = {
+            code,
             openid: sessionData.openid,
-            session_key:sessionData.session_key
+            session_key:sessionData.session_key,
+            userInfo
         }
         think.logger.info("用户信息写入缓存 code:"+code,  userData);
         await this.cache(code, userData);
-        this.model('user').addUser({
-            code,
-            ...userData
+        await this.model('user').addUser({
+            openid: userData.openid
         });
         result.data = userData;
         result.success = true;
@@ -91,9 +95,10 @@ module.exports = class extends Base {
         }
         //签名正确写入缓存
         const userData = {
+            code,
             openid: sessionData.openid,
             session_key:sessionData.session_key,
-            rawData
+            userInfo:rawData
         }
         this.model('user').updateUser(userData);
 
