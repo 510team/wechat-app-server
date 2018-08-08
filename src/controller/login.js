@@ -98,7 +98,7 @@ module.exports = class extends Base {
             code,
             openid: sessionData.openid,
             session_key:sessionData.session_key,
-            userInfo:rawData
+            userInfo:JSON.parse(rawData)
         }
         this.model('user').updateUser(userData);
 

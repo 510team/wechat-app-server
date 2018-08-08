@@ -7,8 +7,6 @@ drop TABLE user;
 
 CREATE TABLE `user` (
 `openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
-`code` varchar(64) NOT NULL DEFAULT ''  COMMENT 'code',
-`session_key` varchar(64) NOT NULL DEFAULT ''  COMMENT 'session_key',
 `nick_name` varchar(128) NOT NULL  DEFAULT '' COMMENT '姓名',
 `avatar_url` varchar(2048)  NOT NULL DEFAULT '' COMMENT '头像',
 `city` varchar(128) NOT NULL DEFAULT '' COMMENT '城市',
