@@ -18,7 +18,7 @@ module.exports = class extends think.Model {
         }
     }
     async updateUser(user) {
-        const userInfo = JSON.parse(user.rawData);
+        const userInfo = user.userInfo;
         const userId = await this.where({ openid: user.openid }).update({
             nick_name: userInfo.nickName,
             province: userInfo.province,
