@@ -28,7 +28,7 @@ module.exports = class extends Base {
         let userInfo =  {};
         think.logger.info("sessionData:",sessionData);
         if(sessionData && sessionData.openid){
-            userInfo = await this.model('user').findUser(sessionData.openid);
+            userInfo = await this.model('user').findUser({openid:sessionData.openid});
         }
         //签名正确写入缓存
         const userData = {
@@ -46,7 +46,7 @@ module.exports = class extends Base {
         result.success = true;
         return this.json(result);
     }
-
+   
     async setUserAction() {
         const signature = this.ctx.post('signature');
         const rawData = this.ctx.post('rawData');
