@@ -5,10 +5,7 @@ module.exports = class extends think.Model {
             .order('score DESC')
             .limit(offset, count)
             .select();
-        const scoreData = await this.model('user')
-            .join('score u ON user.openid=u.openid')
-            .where({ 'u.openid': openid })
-            .select();
+        const scoreData = await this.getCurrentScore(openid);
         const amount = await this.model('user').count('openid');
         const sql = `SELECT
                     (SELECT COUNT(1) FROM score vi1 WHERE vi1.score > vi.score) + 1 AS rank,
@@ -18,8 +15,24 @@ module.exports = class extends think.Model {
             rankList: rankList,
             amount: amount,
             rank: (rank[0] && rank[0].rank) || 1,
-            score: (scoreData[0] && scoreData[0].score) || 0
+            score: scoreData
         };
         return data;
     }
+
+    async getCurrentScore(openid) {
+        const scoreData = await this.model('user')
+            .join('score u ON user.openid=u.openid')
+            .where({ 'u.openid': openid })
+            .select();
+        return (scoreData[0] && scoreData[0].score) || 0;
+    }
+
+    async updateScore(openid,score){
+        await this.model('score').where({ openid: openid }).update({
+            score: score,
+        });
+    }
+
+
 };
