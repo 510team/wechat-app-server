@@ -36,6 +36,7 @@ CREATE TABLE `answer` (
 `open_id` varchar(100)  NOT NULL  COMMENT '用户id',
 `question_id` varchar(100) NOT NULL   COMMENT '问题id',
 `answer` varchar(12) NOT NULL DEFAULT ''  COMMENT '答案',
+`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='答案表';
 
