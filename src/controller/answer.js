@@ -11,10 +11,10 @@ module.exports = class extends Api {
             const ret = await this.model('answer').addAnswer(openId, questionId, answer);
             if (ret >= 0) {
                 result.success = true;
+                result.data = ret;
             }
         }
         return this.json(result);
 
     }
 }
-    ;

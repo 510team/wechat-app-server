@@ -109,7 +109,14 @@ module.exports = class extends Base {
         return this.json(result);
     }
     checkSignature(sessionKey, rawData, signature) {
+        
         const signature2 = SHA.sha1ByJSON(rawData + sessionKey);
+        think.logger.info("checkSignature:");
+        think.logger.info("sessionKey:",  sessionKey);
+        think.logger.info("rawData:", typeof  rawData);
+        think.logger.info("rawData:",  rawData);
+        think.logger.info("signature:",  signature);
+        think.logger.info("signature2:",  signature2);
         return signature === signature2;
     }
 
