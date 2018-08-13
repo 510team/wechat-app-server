@@ -2,8 +2,8 @@ const Api = require('./api.js');
 module.exports = class extends Api {
     async indexAction() {
         const openId = this.ctx.state.userInfo.openid;
-        const questionId = parseInt(this.ctx.post('question_id'));
-        const answer = this.ctx.post('answer');
+        const questionId = parseInt(this.ctx.param('question_id'));
+        const answer = this.ctx.param('answer');
         const result = { success: false, errorMsg: '' }
         if (!openId || !questionId || !answer) {
             result.errorMsg = '请输入参数';
