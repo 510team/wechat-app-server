@@ -48,6 +48,16 @@ CREATE TABLE `score` (
 PRIMARY KEY (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分数表';
 
+drop TABLE feedback;
+
+CREATE TABLE `feedback` (
+`id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+`openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
+`content` varchar(2048) NOT NULL DEFAULT '' COMMENT '反馈内容',
+`feedback_time` timestamp COMMENT '反馈时间',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='反馈表';
+
 drop TABLE level;
 CREATE TABLE `level`(
     `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
