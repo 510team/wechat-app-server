@@ -25,12 +25,17 @@ module.exports = class extends think.Model {
             .join('score u ON user.openid=u.openid')
             .where({ 'u.openid': openid })
             .select();
-        return (scoreData[0] && scoreData[0].score) || 0;
+        return scoreData[0] || {};
     }
 
-    async updateScore(openid,score){
+    async addScore(openid,score,total_score) {
+        await this.model('score').thenAdd({ openid: openid, score: score, total_score: total_score }, { openid: openid });
+    }
+
+    async updateScore(openid,score,total_score){
         await this.model('score').where({ openid: openid }).update({
             score: score,
+            total_score: total_score
         });
     }
 

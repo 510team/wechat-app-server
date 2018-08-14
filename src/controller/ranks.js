@@ -30,11 +30,18 @@ module.exports = class extends Api {
             errorMsg: ''
         };
         const score = parseInt(this.ctx.param('score')) || 0;
-        const currentScore= await this.model('ranks').getCurrentScore(this.ctx.state.userInfo.openid);
-        console.log('currentRank',currentScore);
-        console.log('score',score);
-        if(score > currentScore){
-            await this.model('ranks').updateScore(this.ctx.state.userInfo.openid,score);
+        const scoreData = await this.model('ranks').getCurrentScore(this.ctx.state.userInfo.openid);
+        const currentScore = scoreData.score;
+        const totalScore = scoreData.total_score || 0;
+        const currentTotalScore = totalScore + score;
+        if(!currentScore){
+            this.model('ranks').addScore(this.ctx.state.userInfo.openid,score,currentTotalScore);
+        }else{
+            if(score > currentScore){
+                await this.model('ranks').updateScore(this.ctx.state.userInfo.openid,score,currentTotalScore);
+            }else{
+                await this.model('ranks').updateScore(this.ctx.state.userInfo.openid,currentScore,currentTotalScore);
+            }
         }
         result.success = true;
         return this.json(result);

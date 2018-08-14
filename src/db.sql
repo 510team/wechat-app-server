@@ -45,6 +45,7 @@ DROP TABLE IF EXISTS score;
 CREATE TABLE `score` (
 `openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
 `score` bigint(11) NOT NULL DEFAULT 0 COMMENT '分数',
+`total_score` bigint(11) NOT NULL DEFAULT 0 COMMENT '总分数',
 PRIMARY KEY (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分数表';
 
