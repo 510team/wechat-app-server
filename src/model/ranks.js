@@ -44,11 +44,12 @@ module.exports = class extends think.Model {
     }
 
     async getCurrentScore(openid) {
-        const scoreData = await this.model('user')
-            .join('score u ON user.openid=u.openid')
-            .where({ 'u.openid': openid })
-            .select();
-        return scoreData[0] || {};
+        const scoreData = await this.model('score')
+            .where({ 'openid': openid })
+            .find();
+        console.log(scoreData,'scoreData')
+
+        return scoreData || {};
     }
 
     async addScore(openid, score, total_score) {

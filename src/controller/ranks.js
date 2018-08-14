@@ -45,7 +45,8 @@ module.exports = class extends Api {
         think.logger.info("updateScoreAction: currentScore "+currentScore);
         think.logger.info("updateScoreAction: totalScore "+totalScore);
         think.logger.info("updateScoreAction: currentTotalScore "+currentTotalScore);
-        if (!scoreData.length) {
+
+        if (!Object.keys(scoreData).length) {
             await this.model('ranks').addScore(
                 this.ctx.state.userInfo.openid,
                 score,
