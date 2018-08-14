@@ -6,8 +6,8 @@ module.exports = class extends API {
             errorMsg: ''
         };
         const model = this.model('level');
-        const openid = this.ctx.param('open_id');
-        const data = await model.currentLevel(openid);
+        const openId = this.ctx.state.userInfo.openid;
+        const data = await model.currentLevel(openId);
         result = {
             ...data,
             success: true
