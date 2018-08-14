@@ -1,6 +1,21 @@
 module.exports = class extends think.Model {
     async getQuestions(offset, count) {
-        const questions = await this.limit(offset, count).select();
+        const ids = {};
+        let questionsArray = [];
+        const min = await this.min('id');
+        const max = await this.max('id');
+        let randomId = Math.round(Math.random() * (max - min)) + min;
+        let num = 0;
+        while ( num < 10) {
+            randomId = Math.round(Math.random() * (max - min)) + min;
+            if (!ids[randomId]) {
+                ids[randomId] = true;
+                questionsArray.push(randomId);
+                num++;
+            }
+        }
+        think.logger.info('选中的ID是:',questionsArray);
+        const questions = await this.where({ id: ['IN', questionsArray] }).select();
         questions &&
             questions.map(question => {
                 question.items = [];
