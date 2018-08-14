@@ -3,7 +3,7 @@ CREATE Database `wechat_app` DEFAULT CHARSET=utf8mb4;
 
 use wechat_app;
 
-drop TABLE user;
+DROP TABLE IF EXISTS user;
 
 CREATE TABLE `user` (
 `openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
@@ -16,7 +16,7 @@ CREATE TABLE `user` (
 PRIMARY KEY (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
-drop TABLE questions;
+DROP TABLE IF EXISTS questions;
 
 CREATE TABLE `questions` (
 `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -29,7 +29,7 @@ CREATE TABLE `questions` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='问题表';
 
-drop TABLE answer;
+DROP TABLE IF EXISTS answer;
 
 CREATE TABLE `answer` (
 `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -40,7 +40,7 @@ CREATE TABLE `answer` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='答案表';
 
-drop TABLE score;
+DROP TABLE IF EXISTS score;
 
 CREATE TABLE `score` (
 `openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
@@ -48,7 +48,7 @@ CREATE TABLE `score` (
 PRIMARY KEY (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分数表';
 
-drop TABLE feedback;
+DROP TABLE IF EXISTS feedback;
 
 CREATE TABLE `feedback` (
 `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -58,7 +58,7 @@ CREATE TABLE `feedback` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='反馈表';
 
-drop TABLE level;
+DROP TABLE IF EXISTS level;
 CREATE TABLE `level`(
     `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
     `name` varchar(64) NOT NULL DEFAULT '' COMMENT '等级名称',
