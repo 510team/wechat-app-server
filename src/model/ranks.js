@@ -34,7 +34,6 @@ module.exports = class extends think.Model {
                         ) r
                     ) AS obj_new WHERE obj_new.openid = '${openid}'`;
         const rank = await this.query(sql);
-        console.log(rank, 'dsfsfsdfsdfsdfsfsdf');
         const data = {
             rankList: rankList,
             amount: amount,

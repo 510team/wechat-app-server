@@ -27,7 +27,8 @@ module.exports = class extends Api {
     async updateScoreAction() {
         const result = {
             success: false,
-            errorMsg: ''
+            errorMsg: '',
+            data:{new_record: false}
         };
         const score = parseInt(this.post('score')) || 0;
         const scoreData = await this.model('ranks').getCurrentScore(
@@ -36,7 +37,7 @@ module.exports = class extends Api {
         const currentScore = scoreData.score;
         const totalScore = scoreData.total_score || 0;
         const currentTotalScore = totalScore + score;
-        if (!currentScore) {
+        if (!scoreData.length) {
             this.model('ranks').addScore(
                 this.ctx.state.userInfo.openid,
                 score,
@@ -49,6 +50,7 @@ module.exports = class extends Api {
                     score,
                     currentTotalScore
                 );
+                result.data.new_record = true
             } else {
                 await this.model('ranks').updateScore(
                     this.ctx.state.userInfo.openid,
