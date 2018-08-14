@@ -31,9 +31,13 @@ module.exports = class extends Api {
             data:{new_record: false}
         };
         const score = parseInt(this.post('score')) || 0;
+
+        think.logger.info("updateScoreAction: score "+score);
         const scoreData = await this.model('ranks').getCurrentScore(
             this.ctx.state.userInfo.openid
         );
+
+
         const currentScore = scoreData.score;
         const totalScore = scoreData.total_score || 0;
         const currentTotalScore = totalScore + score;
