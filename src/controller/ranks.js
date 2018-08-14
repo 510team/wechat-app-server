@@ -30,14 +30,22 @@ module.exports = class extends Api {
             errorMsg: ''
         };
         const score = parseInt(this.post('score')) || 0;
+
+        think.logger.info("updateScoreAction: score "+score);
         const scoreData = await this.model('ranks').getCurrentScore(
             this.ctx.state.userInfo.openid
         );
+
+
         const currentScore = scoreData.score;
         const totalScore = scoreData.total_score || 0;
         const currentTotalScore = totalScore + score;
+
+        think.logger.info("updateScoreAction: currentScore "+currentScore);
+        think.logger.info("updateScoreAction: totalScore "+totalScore);
+        think.logger.info("updateScoreAction: currentTotalScore "+currentTotalScore);
         if (!currentScore) {
-            this.model('ranks').addScore(
+            await this.model('ranks').addScore(
                 this.ctx.state.userInfo.openid,
                 score,
                 currentTotalScore
