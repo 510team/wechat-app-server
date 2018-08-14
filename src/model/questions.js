@@ -6,12 +6,17 @@ module.exports = class extends think.Model {
         const max = await this.max('id');
         let randomId = Math.round(Math.random() * (max - min)) + min;
         let num = 0;
-        while ( num < 10) {
+        let tryTimes = 0;
+        while ( num < 10 ) {
             randomId = Math.round(Math.random() * (max - min)) + min;
             if (!ids[randomId]) {
                 ids[randomId] = true;
                 questionsArray.push(randomId);
                 num++;
+            }
+            tryTimes++;
+            if(tryTimes>100){
+                break;
             }
         }
         think.logger.info('选中的ID是:',questionsArray);

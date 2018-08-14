@@ -27,17 +27,26 @@ module.exports = class extends Api {
     async updateScoreAction() {
         const result = {
             success: false,
-            errorMsg: ''
+            errorMsg: '',
+            data:{new_record: false}
         };
         const score = parseInt(this.post('score')) || 0;
+
+        think.logger.info("updateScoreAction: score "+score);
         const scoreData = await this.model('ranks').getCurrentScore(
             this.ctx.state.userInfo.openid
         );
+
+
         const currentScore = scoreData.score;
         const totalScore = scoreData.total_score || 0;
         const currentTotalScore = totalScore + score;
-        if (!currentScore) {
-            this.model('ranks').addScore(
+
+        think.logger.info("updateScoreAction: currentScore "+currentScore);
+        think.logger.info("updateScoreAction: totalScore "+totalScore);
+        think.logger.info("updateScoreAction: currentTotalScore "+currentTotalScore);
+        if (!scoreData.length) {
+            await this.model('ranks').addScore(
                 this.ctx.state.userInfo.openid,
                 score,
                 currentTotalScore
@@ -49,6 +58,7 @@ module.exports = class extends Api {
                     score,
                     currentTotalScore
                 );
+                result.data.new_record = true
             } else {
                 await this.model('ranks').updateScore(
                     this.ctx.state.userInfo.openid,

@@ -7,9 +7,32 @@ module.exports = class extends think.Model {
             .select();
         const scoreData = await this.getCurrentScore(openid);
         const amount = await this.model('user').count('openid');
-        const sql = `SELECT
-                    (SELECT COUNT(1) FROM score vi1 WHERE vi1.score > vi.score) + 1 AS rank,
-                    vi.* FROM score vi WHERE vi.openid = '${openid}'`;
+        const sql = `SELECT obj_new.rank FROM
+                        (
+                            SELECT
+                            obj.score,
+                            obj.openid,
+                            @rank := @rank + 1 AS num_tmp,
+                            @incrnum := CASE
+                            WHEN @rowtotal = obj.score THEN
+                            @incrnum
+                            WHEN @rowtotal := obj.score THEN
+                            @rank
+                            END AS rank
+                    FROM
+                        (
+                            SELECT
+                            *
+                            FROM
+                            score
+                            ORDER BY
+                            score DESC
+                        ) AS obj,
+                        (
+                            SELECT
+                            @rank := 0 ,@rowtotal := NULL ,@incrnum := 0
+                        ) r
+                    ) AS obj_new WHERE obj_new.openid = '${openid}'`;
         const rank = await this.query(sql);
         const data = {
             rankList: rankList,
@@ -28,16 +51,19 @@ module.exports = class extends think.Model {
         return scoreData[0] || {};
     }
 
-    async addScore(openid,score,total_score) {
-        await this.model('score').thenAdd({ openid: openid, score: score, total_score: total_score }, { openid: openid });
+    async addScore(openid, score, total_score) {
+        await this.model('score').thenAdd(
+            { openid: openid, score: score, total_score: total_score },
+            { openid: openid }
+        );
     }
 
-    async updateScore(openid,score,total_score){
-        await this.model('score').where({ openid: openid }).update({
-            score: score,
-            total_score: total_score
-        });
+    async updateScore(openid, score, total_score) {
+        await this.model('score')
+            .where({ openid: openid })
+            .update({
+                score: score,
+                total_score: total_score
+            });
     }
-
-
 };
