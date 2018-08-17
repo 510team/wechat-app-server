@@ -1,7 +1,7 @@
 module.exports = class extends think.Model {
     async getRanks(openid, offset, count) {
         const rankList = await this.model('user')
-            .join('score ON user.openid=score.openid')
+            .join('score ON user.openid=score.openid').join('level ON level.lowest_score<=score.score AND level.highest_score>=score.score')
             .order('score DESC')
             .limit(offset, count)
             .select();
@@ -34,11 +34,18 @@ module.exports = class extends think.Model {
                         ) r
                     ) AS obj_new WHERE obj_new.openid = '${openid}'`;
         const rank = await this.query(sql);
+        // 查找当前等级
+        const currentLevel = await this.model('level')
+            .where(
+                `lowest_score<=${scoreData.score} AND highest_score>=${scoreData.score}`
+            )
+            .find();
         const data = {
             rankList: rankList,
             amount: amount,
             rank: (rank[0] && rank[0].rank) || 1,
-            score: scoreData.score || 0
+            score: scoreData.score || 0,
+            level: currentLevel.name
         };
         return data;
     }
