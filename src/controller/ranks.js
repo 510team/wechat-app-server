@@ -18,7 +18,8 @@ module.exports = class extends Api {
             user: this.ctx.state.userInfo.userInfo,
             amount: data.amount,
             currentRank: data.rank,
-            score: data.score
+            score: data.score,
+            level: data.level
         };
         result.success = true;
         return this.json(result);
