@@ -43,10 +43,8 @@ exports.model = {
         charset: 'utf8mb4',
         host: 'localhost',
         port: '3306',
-        // user: 'develop',
-        // password: 'develop',
         user: 'root',
-        password: 'xiaogai1010',
+        password: '123456',
         dateStrings: true
     }
 };
