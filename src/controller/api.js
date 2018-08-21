@@ -3,11 +3,11 @@ module.exports = class extends think.Controller {
         const result = {
             success: false,
             errorMsg: '',
-            errorCode:''
-        }
+            errorCode: ''
+        };
         const headers = this.ctx.headers;
-        const code = headers &&  headers["code"] || '';
-        think.logger.info("code:" + code);
+        const code = (headers && headers['code']) || '';
+        think.logger.info('code:' + code);
         if (code) {
             const sessionData = await this.cache(code);
             if (sessionData && sessionData.openid) {
