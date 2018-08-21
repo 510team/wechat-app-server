@@ -78,3 +78,14 @@ INSERT INTO `level` SET name='有学而至',icon='icon-level3',lowest_score=200,
 INSERT INTO `level` SET name='青年才俊',icon='icon-level4',lowest_score=300,highest_score=399,grade=4;
 INSERT INTO `level` SET name='学长师友',icon='icon-level5',lowest_score=400,highest_score=999,grade=5;
 
+
+
+DROP TABLE IF EXISTS `background`;
+CREATE TABLE `background` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `img` varchar(255) NOT NULL,
+  `mark` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='背景图';
+
+INSERT INTO `background` VALUES ('1', '/static/background1@2x.png', '1'), ('2', '/static/background2@2x.png', '0'), ('3', '/static/background3@2x.png', '0'), ('4', '/static/background4@2x.png', '0');
