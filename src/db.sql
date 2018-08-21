@@ -26,9 +26,11 @@ CREATE TABLE `questions` (
 `C` varchar(2048) NOT NULL DEFAULT '' COMMENT 'C选项',
 `D` varchar(2048) NOT NULL DEFAULT '' COMMENT 'D选项',
 `answer` varchar(128) NOT NULL DEFAULT '' COMMENT '答案',
+
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='问题表';
 
+alter table questions add column accuracy varchar(60) not null comment '正确率';
 DROP TABLE IF EXISTS answer;
 
 CREATE TABLE `answer` (

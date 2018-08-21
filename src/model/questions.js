@@ -36,4 +36,11 @@ module.exports = class extends think.Model {
             });
         return questions;
     }
+
+    async findAllQuestions(){
+        return await this.select();
+    }
+    async updateAccuracy(id,accuracy){
+        return  await this.where({id}).update({accuracy});
+    }
 };
