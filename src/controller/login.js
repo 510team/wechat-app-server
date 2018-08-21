@@ -5,7 +5,7 @@ const request = require('../util/request');
 module.exports = class extends Base {
     async indexAction() {
         const code = this.ctx.param('code');
-        think.logger.info("login code:"+code);
+        think.logger.info("login code:" + code);
 
         const result = {
             success: false,
@@ -16,7 +16,7 @@ module.exports = class extends Base {
             result.errorMsg = "请添加code参数";
             return this.json(result);
         }
-        
+
 
         //含有rawData ,拿code ,appid,app_secret 换session_key,openid,然后写入缓存.code->{openId,sessionKey,rawData}
         const sessionData = await this.jscode2session(code);
@@ -25,19 +25,19 @@ module.exports = class extends Base {
             result.errorMsg = sessionData.errmsg || "jscode2session出错";
             return this.json(result);
         }
-        let userInfo =  {};
-        think.logger.info("sessionData:",sessionData);
-        if(sessionData && sessionData.openid){
-            userInfo = await this.model('user').findUser({openid:sessionData.openid});
+        let userInfo = {};
+        think.logger.info("sessionData:", sessionData);
+        if (sessionData && sessionData.openid) {
+            userInfo = await this.model('user').findUser({ openid: sessionData.openid });
         }
         //签名正确写入缓存
         const userData = {
             code,
             openid: sessionData.openid,
-            session_key:sessionData.session_key,
+            session_key: sessionData.session_key,
             userInfo
         }
-        think.logger.info("用户信息写入缓存 code:"+code,  userData);
+        think.logger.info("用户信息写入缓存 code:" + code, userData);
         await this.cache(code, userData);
         await this.model('user').addUser({
             openid: userData.openid
@@ -69,6 +69,6 @@ module.exports = class extends Base {
         think.logger.info("[service][jscode2session] return", ret);
         return ret;
     }
-   
-    
+
+
 }

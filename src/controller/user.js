@@ -89,26 +89,5 @@ module.exports = class extends Api {
         return signature === signature2;
     }
 
-    async jscode2session(code) {
-        let ret = {};
 
-        think.logger.info("[service][jscode2session] code ", code);
-
-        try {
-            ret = await request.send({
-                url: "https://api.weixin.qq.com/sns/jscode2session",
-                method: "get",
-                data: {
-                    appid: config.appID,
-                    secret: config.appSecret,
-                    js_code: code,
-                    grant_type: 'authorization_code'
-                }
-            });
-        } catch (error) {
-            think.logger.error("[service][jscode2session] error", error);
-        }
-        think.logger.info("[service][jscode2session] return", ret);
-        return ret;
-    }
 }
