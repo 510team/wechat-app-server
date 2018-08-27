@@ -3,10 +3,8 @@ module.exports = class extends think.Model {
         let lists = await this.where({ mark: 0 }).getField('img');
         //mark == 1 表示当前背景
         let curPic = await this.where({ mark: 1 }).find();
-        // let ids = list.map(item => {
-        // return item.id;
-        // });
-        // let data = await this.where({id: ['IN', ids]}).select()
+        think.logger.info('All backgrounds:', lists);
+        think.logger.info('Now background is :', curPic.img);
         return {
             lists,
             cur: curPic.img
@@ -15,6 +13,7 @@ module.exports = class extends think.Model {
     async setBackground(imgUrl) {
         if (imgUrl == '') return;
         const img = imgUrl.match(/\/static\/.*/)[0];
+        think.logger.info('setBackground: ' + img);
         await this.where({ mark: 1 }).update({ mark: 0 });
         await this.where({ img: img }).update({ mark: 1 });
     }
