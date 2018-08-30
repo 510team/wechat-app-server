@@ -24,3 +24,4 @@ pm2 startOrReload pm2.json
 test1
 test2
 test3
+test4
