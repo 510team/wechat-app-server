@@ -1,39 +1,40 @@
 module.exports = class extends think.Model {
     async getRanks(openid, offset, count) {
-        const rankList = await this.model('user')
-            .join('score ON user.openid=score.openid').join('level ON level.lowest_score<=score.score AND level.highest_score>=score.score')
-            .order('score DESC')
-            .limit(offset, count)
-            .select();
         const scoreData = await this.getCurrentScore(openid);
         const amount = await this.model('user').count('openid');
-        const sql = `SELECT obj_new.rank FROM
+        const sql = `SELECT * FROM
                         (
                             SELECT
-                            obj.score,
-                            obj.openid,
-                            @rank := @rank + 1 AS num_tmp,
-                            @incrnum := CASE
-                            WHEN @rowtotal = obj.score THEN
-                            @incrnum
-                            WHEN @rowtotal := obj.score THEN
-                            @rank
-                            END AS rank
-                    FROM
-                        (
-                            SELECT
-                            *
+                                obj.score,
+                                obj.name,
+                                obj.nick_name,
+                                obj.avatar_url,
+                                obj.openid,
+                                @rank := @rank + 1 AS num_tmp,
+                                @incrnum := CASE
+                                WHEN @rowtotal = obj.score THEN
+                                @incrnum
+                                WHEN @rowtotal := obj.score THEN
+                                @rank
+                                END AS rank
                             FROM
-                            score
-                            ORDER BY
-                            score DESC
-                        ) AS obj,
-                        (
-                            SELECT
-                            @rank := 0 ,@rowtotal := NULL ,@incrnum := 0
+                              (
+                                SELECT
+                                  score1.score,
+                                  level.name,
+                                  user.nick_name,
+                                  user.avatar_url,
+                                  user.openid 
+                                FROM score AS score1 LEFT JOIN level ON level.lowest_score<=score1.score AND level.highest_score>=score1.score LEFT JOIN user ON user.openid=score1.openid ORDER BY score DESC
+                              ) AS obj,
+                              (
+                                SELECT
+                                @rank := 0 ,@rowtotal := NULL ,@incrnum := 0
                         ) r
-                    ) AS obj_new WHERE obj_new.openid = '${openid}'`;
-        const rank = await this.query(sql);
+                    ) AS obj_new `;
+        const rankList = await this.query(sql + `limit ${offset}, ${count}`);
+        const rank = await this.query(sql + `WHERE obj_new.openid = '${openid}'`);
+
         // 查找当前等级
         const currentLevel = await this.model('level')
             .where(

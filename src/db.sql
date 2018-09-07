@@ -72,10 +72,10 @@ CREATE TABLE `level`(
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='等级表';
 
-INSERT INTO `level` SET name='初学乍到',icon='icon-level1',lowest_score=0,highest_score=99,grade=1;
-INSERT INTO `level` SET name='游学四方',icon='icon-level2',lowest_score=100,highest_score=199,grade=2;
-INSERT INTO `level` SET name='有学而至',icon='icon-level3',lowest_score=200,highest_score=299,grade=3;
-INSERT INTO `level` SET name='青年才俊',icon='icon-level4',lowest_score=300,highest_score=399,grade=4;
+INSERT INTO `level` SET name='学渣',icon='icon-level1',lowest_score=0,highest_score=99,grade=1;
+INSERT INTO `level` SET name='学霸',icon='icon-level2',lowest_score=100,highest_score=199,grade=2;
+INSERT INTO `level` SET name='导师',icon='icon-level3',lowest_score=200,highest_score=299,grade=3;
+INSERT INTO `level` SET name='叫兽',icon='icon-level4',lowest_score=300,highest_score=399,grade=4;
 INSERT INTO `level` SET name='学长师友',icon='icon-level5',lowest_score=400,highest_score=999,grade=5;
 
 
@@ -83,9 +83,32 @@ INSERT INTO `level` SET name='学长师友',icon='icon-level5',lowest_score=400,
 DROP TABLE IF EXISTS `background`;
 CREATE TABLE `background` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
   `img` varchar(255) NOT NULL,
   `mark` int(11) DEFAULT NULL,
+  `canShow` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='背景图';
 
 INSERT INTO `background` VALUES ('1', '/static/background1@2x.png', '1'), ('2', '/static/background2@2x.png', '0'), ('3', '/static/background3@2x.png', '0'), ('4', '/static/background4@2x.png', '0');
+
+DROP TABLE IF EXISTS signIn;
+
+CREATE TABLE `signIn` (
+`id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+`openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
+`count` bigint(11) NOT NULL DEFAULT 0 COMMENT '连续签到次数',
+`sign_time` timestamp COMMENT '签到时间',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='签到表';
+
+DROP TABLE IF EXISTS point;
+
+CREATE TABLE `point` (
+`id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+`openid` varchar(64) NOT NULL DEFAULT ''  COMMENT 'openid',
+`point` bigint(11) NOT NULL DEFAULT 0 COMMENT '每次积分',
+`total_point` bigint(11) NOT NULL DEFAULT 0 COMMENT '总积分',
+`sign_time` timestamp COMMENT '积分获得时间',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='积分表';

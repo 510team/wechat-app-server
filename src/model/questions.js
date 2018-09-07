@@ -7,7 +7,7 @@ module.exports = class extends think.Model {
         let randomId = Math.round(Math.random() * (max - min)) + min;
         let num = 0;
         let tryTimes = 0;
-        while ( num < 10 ) {
+        while ( num < count ) {
             randomId = Math.round(Math.random() * (max - min)) + min;
             if (!ids[randomId]) {
                 ids[randomId] = true;
@@ -19,6 +19,7 @@ module.exports = class extends think.Model {
                 break;
             }
         }
+        console.log(questionsArray,'questionsArray')
         think.logger.info('选中的ID是:',questionsArray);
         const questions = await this.where({ id: ['IN', questionsArray] }).select();
         questions &&
