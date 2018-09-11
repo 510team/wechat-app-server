@@ -18,12 +18,12 @@ module.exports = class extends think.Model {
         await this.where({ img: img }).update({ mark: 1 });
     }
     async addBackground(openid,finalFileName,uploadFold){
-        const url = uploadFold === 'www/static' ? '/static' : '/deploy/cdn';
+        const url = uploadFold === 'www/static' ? '/static' : 'https://cdn.adazhang.com/';
         await this.where({ mark: 1 }).update({ mark: 0 });
         await this.add({ openid: openid, img:`${url}/${finalFileName}`, mark: 1 });
     }
     async hasPrivilege(openid){
-        const url = uploadFold === 'www/static' ? '/static' : '/deploy/cdn';
+        const url = uploadFold === 'www/static' ? '/static' : 'https://cdn.adazhang.com/';
         return true;
     }
 };

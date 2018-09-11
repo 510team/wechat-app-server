@@ -29,7 +29,7 @@ module.exports = class extends Api {
             backgroundUrl: ''
         };
         const uploadFold = this.config('uploadFold');
-        const url = uploadFold === 'www/static' ? '/static' : '/deploy/cdn';
+        const url = uploadFold === 'www/static' ? '/static' : '/deploy/cdn/user-upload';
 
         //处理后缀和文件名
         let finalFileName = new Date().getTime() + '.png';
