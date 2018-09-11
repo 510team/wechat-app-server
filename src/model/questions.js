@@ -22,8 +22,9 @@ module.exports = class extends think.Model {
         console.log(questionsArray,'questionsArray')
         think.logger.info('选中的ID是:',questionsArray);
         const questions = await this.where({ id: ['IN', questionsArray] }).select();
-        questions &&
-            questions.map(question => {
+        const randomQuestions = questions.sort(function(){return 0.5-Math.random()});
+        randomQuestions &&
+        randomQuestions.map(question => {
                 question.items = [];
                 question.items.push({ key: 'A', value: question.A });
                 question.items.push({ key: 'B', value: question.B });
@@ -35,7 +36,7 @@ module.exports = class extends think.Model {
                 delete question.D;
                 return question;
             });
-        return questions;
+        return randomQuestions;
     }
 
     async findAllQuestions(){

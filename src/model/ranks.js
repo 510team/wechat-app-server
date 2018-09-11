@@ -25,7 +25,7 @@ module.exports = class extends think.Model {
                                   user.nick_name,
                                   user.avatar_url,
                                   user.openid 
-                                FROM score AS score1 LEFT JOIN level ON level.lowest_score<=score1.score AND level.highest_score>=score1.score LEFT JOIN user ON user.openid=score1.openid ORDER BY score DESC
+                                FROM user  LEFT JOIN score as score1 ON user.openid=score1.openid LEFT JOIN level ON level.lowest_score<=score1.score AND level.highest_score>=score1.score ORDER BY score DESC
                               ) AS obj,
                               (
                                 SELECT

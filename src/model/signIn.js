@@ -49,7 +49,7 @@ module.exports = class extends think.Model {
         let can_share = false;
         let lastShareRecord = await this.model('point').where({ openid: openid, point: 30 }).order('sign_time DESC').limit(0,1).select();
         if(lastShareRecord.length){
-            if(new Date().setHours(0,0,0,0) - (new Date(lastShareRecord[0].sign_time).getTime()) > 60 * 60 * 24 * 1000){
+            if((new Date(lastShareRecord[0].sign_time).getTime() - new Date().setHours(0,0,0,0)) < 0){
                 can_share = true;
             }
         }else{
