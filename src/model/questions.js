@@ -15,7 +15,7 @@ module.exports = class extends think.Model {
                 num++;
             }
             tryTimes++;
-            if(tryTimes>100){
+            if(tryTimes>1000){
                 break;
             }
         }
